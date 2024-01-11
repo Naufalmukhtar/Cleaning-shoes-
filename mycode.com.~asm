@@ -1,0 +1,186 @@
+.model small
+.code
+org 100h
+start:
+jmp mulai
+nama    db 13,10,'Masukkan Nama   : $'
+nim    db 13,10,    'Masukkan NIM    : $'
+lanjut    db 13,10,'LANJUT Tekan Y untuk lanjut : $'
+tampung_nama    db 30,?,30 dub(?)
+tampung_nim    db 13,?,13 dub(?)
+
+a db 01
+b db 01
+c db 03
+d db 04
+e db 05
+f db 06
+g db 07
+j dw 15
+
+daftar  db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|                SELAMAT DATANG DI CLEANING SEPATU                      |'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|                     PILIH JENIS PEMBERSIHAN SEPATU                    |'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|No | JENIS CLEANING               |  LAMA PENGERJAAN     |  HARGA      |'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|01 |    FAST CLEANING             | 1 HARI               |  Rp. 30.000 |'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|02 |    DEEP CLEANING             | 3 HARI               |  Rp. 60.000 |'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|03 |    PREMIUM TREATMEN          | 2 HARI               |  Rp. 100.000|'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|04 |    UNYELLOWING SHOES         | 6 HARI               |  Rp. 120.000|'
+db 13,10,'|-----------------------------------------------------------------------|'
+db 13,10,'|05 |    REPAINT                   | 7 HARI               |  Rp. 200.000|'
+db 13,10,'|-----------------------------------------------------------------------|','$'
+
+
+
+
+
+error        db 13,10,'PILIHAN YANG ANDA MASUKKAN SALAH $'
+pilih_krs    db 13,10,'Silahkan Masukkan Jenis Treatmen Yang Anda Pilih: $'
+success        db 13,10,'Pilihian Valid $'
+
+mulai:
+mov ah,09h
+lea dx,nama
+int 21h
+mov ah,0ah
+lea dx,tampung_nama
+int 21h
+push dx
+
+mov ah,09h
+lea dx,nim
+int 21h
+mov ah,0ah
+lea dx,tampung_nim
+int 21h
+push dx
+
+mov ah,09h
+mov dx,offset daftar
+int 21h
+mov ah,09h
+mov dx,offset lanjut
+int 21h
+mov ah,01h
+int 21h
+cmp al,'y'
+jmp proses
+jne error_msg
+
+error_msg:
+mov ah,09h
+mov dx,offset error
+int 21h
+int 20h
+
+proses:
+mov ah,09h
+mov dx,offset pilih_krs
+int 21h
+
+mov ah,1
+int 21h
+mov bh,al
+mov ah,1
+int 21h
+mov bl,al
+
+cmp bh,'0'
+cmp bh,'1'
+je hasil1
+
+cmp bh,'0'
+cmp bh,'2'
+je hasil2
+
+cmp bh,'0'
+cmp bh,'3'
+je hasil3
+
+cmp bh,'0'
+cmp bh,'4'
+je hasil4
+
+cmp bh,'0'
+cmp bh,'5'
+je hasil5
+
+
+
+jne error_msg
+
+;-------------------------------------------------------------------
+
+hasil1:
+mov ah,09h
+lea dx,teks1
+int 21h
+int 20h
+
+hasil2:
+mov ah,09h
+lea dx,teks2
+int 21h
+int 20h
+
+hasil3:
+mov ah,09h
+lea dx,teks3
+int 21h
+int 20h
+
+hasil4:
+mov ah,09h
+lea dx,teks4
+int 21h
+int 20h
+
+hasil5:
+mov ah,09h
+lea dx,teks5
+int 21h
+int 20h
+
+;-------------------------------------------------------------------
+
+teks1    db 13,10,'<<---------------------------------------->>'
+db 13,10,'Anda Memilih Treatmen Fast Cleaning'
+db 13,10,'Lama Pengerjaan 1 Hari'
+db 13,10,'Total Harga Yang Harus Anda Bayar: Rp. 30.000 '
+db 13,10,'Terima Kasih $'
+
+teks2    db 13,10,'<<---------------------------------------->>'
+db 13,10,'Anda Memilih Treatmen Deep Cleaning'
+db 13,10,'Lama Pengerjaan 3 Hari'
+db 13,10,'Total Harga Yang Harus Anda Bayar: Rp.60.000  '
+db 13,10,'Terima Kasih $'
+
+teks3    db 13,10,'<<---------------------------------------->>'
+db 13,10,'Anda Memilih Tretmen Premiume Cleaning'
+db 13,10,'Lama Pengerjaan 2 Hari'
+db 13,10,'Total Harga Yang Harus Anda Bayar: Rp. 100.000 '
+db 13,10,'Terima Kasih $'
+
+teks4    db 13,10,'<<---------------------------------------->>'
+db 13,10,'Anda memilih Treatmen Unyellowing Shoes'
+db 13,10,'Lama Pengerjaan 6 Hari'
+db 13,10,'Total Harga Yang Harus Anda Bayar: Rp. 120.000 '
+db 13,10,'Terima Kasih $'
+
+teks5    db 13,10,'<<---------------------------------------->>'
+db 13,10,'Anda memilih Repaint Shoes'
+db 13,10,'Lama Pengerjaan 7 Hari'
+db 13,10,'Total Harga Yang Harus Anda Bayar: Rp. 200.000 '
+db 13,10,'Terima Kasih $'
+
+end start
+
+
+
+; [SOURCE]: D:\mycode.asm
